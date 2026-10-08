@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <title>Profile Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body style="padding-bottom: 30px;">
+
+  <div id="loadingSpinner" style="position:fixed; top:0; left:0; right:0; bottom:0; z-index:100000; background:#0d0a18; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;">
+    <img src="/files/loading.gif" alt="Loading..." style="width:200px; height:200px; object-fit:contain; filter:drop-shadow(0 0 15px rgba(250,204,21,0.4)); margin-bottom:-65px;" />
+    <p style="font-size:0.85rem; color:#c084fc; letter-spacing:1.5px; font-weight:600; margin:0; font-family:sans-serif;">loading</p>
+  </div>
+
+
+    <div class="page-wrapper">
+        
+        <div class="profile-header">
+            <div class="cover-container">
+                <img id="coverImage" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Cover Photo" class="cover-image">
+                <div class="cover-gradient-overlay"></div>
+                <button class="edit-cover-btn" id="editCoverBtn">
+                    <i class="fa-solid fa-pen"></i> Edit Cover
+                </button>
+                <input type="file" id="coverUploadInput" accept="image/*" style="display: none;">
+            </div>
+
+            <div class="profile-info-section">
+                <div class="user-main-info">
+                    <div class="avatar-container" id="avatarContainer" title="Click to change profile picture">
+                        <img id="userAvatar" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Avatar" class="avatar-image">
+                        <input type="file" id="avatarUploadInput" accept="image/*" style="display: none;">
+                    </div>
+
+                    <div class="user-text-and-stats">
+                        <div class="user-name-row">
+                            <h1></h1>
+                            <div class="profile-stats-inline">
+                                <span class="stat-item"><b id="postsCount">0</b> posts</span>
+                                <span class="stat-separator">•</span>
+                                <span class="stat-item"><b id="savedCount">0</b> saved</span>
+                            </div>
+                        </div>
+                        <span class="user-handle"></span>
+                    </div>
+                </div>
+
+                <div class="user-bio-container" style="display: flex; align-items: center; justify-content: flex-start; gap: 10px; margin-top: 8px;">
+                    <p id="userBioText" class="user-bio-section" style="margin: 0; color: #d1d5db; font-size: 13px;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <button class="tab-btn active" id="userPostsTab">User Posts</button>
+            <button class="tab-btn" id="savedItemsTab">Saved Items</button>
+        </div>
+
+        <div class="profile-content" id="profileContentArea" style="display: flex; flex-direction: column; gap: 16px;">
+            <p>No posts published yet.</p>
+        </div>
+
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/Utils.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

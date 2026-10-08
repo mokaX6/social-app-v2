@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+  <title>Moka Cafe Social</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body style="padding-bottom: 30px;">
+
+  <div id="startupSplash" class="startup-splash-screen" style="display: none;">
+    <img src="files/purpleEye.gif" alt="Loading..." class="splash-gif-img">
+    <h3 class="splash-title-text">welcome, i guess</h3>
+  </div>
+
+  <header class="header">
+    <div class="header-left" style="display: flex; align-items: center; gap: 10px;">
+      <div class="sidebar-container">
+        <button class="sBtn" id="sidebarToggle" title="Menu"><i class="fa-solid fa-bars-staggered"></i></button>
+      </div>
+      
+      <div class="logo" style="cursor: default;">
+        <span><i class="fa-solid fa-mug-hot"></i> <span class="logo-text">Moka Cafe</span></span>
+      </div>
+    </div>
+    
+    <div class="header-right-group">
+      <div class="nav-links">
+        <a href="index.html" title="Home"><i class="fa-solid fa-house"></i> <span class="nav-label" style="display: none;">Home</span></a>
+        <a href="profile/profile.html" id="profileNavLink" title="Profile"><i class="fa-solid fa-user"></i> <span class="nav-label" style="display: none;">Profile</span></a>
+      </div>
+      <div id="authButtonsContainer" style="visibility: hidden;"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" placeholder="Search for any user, post..." />
+    </div>
+
+    <div id="postsContainer" class="posts-feed"></div>
+  </main>
+
+  <button class="floating-add-btn" id="openCreatePostModal" title="Create New Post" style="display: none;">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+
+  <div class="comments-modal-overlay" id="createPostModal">
+    <div class="comments-modal-card create-post-card">
+      <div class="modal-header">
+        <h3>Create New Post</h3>
+        <button class="close-modal-btn" id="closeCreateModalBtn">&times;</button>
+      </div>
+      
+      <div class="create-post-form">
+        <input type="text" class="comment-input" id="postTitleInput" placeholder="Main short title..." />
+        <textarea class="comment-input post-desc-input" id="postDescInput" placeholder="Write your post description..."></textarea>
+        
+        <input type="text" class="comment-input" id="postTagsInput" placeholder="Tags (comma separated, e.g. coffee, social, news)..." />
+
+        <div class="file-upload-box">
+          <label for="postMediaFile" class="file-upload-label">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo
+          </label>
+          <input type="file" id="postMediaFile" accept="image/*" style="display: none;" />
+        </div>
+
+        <button class="send-comment-btn publish-btn" id="publishPostBtn"><i class="fa-solid fa-paper-plane"></i> Publish Post</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="comments-modal-overlay" id="editPostModal">
+    <div class="comments-modal-card create-post-card">
+      <div class="modal-header">
+        <h3>Edit Post</h3>
+        <button class="close-modal-btn" id="closeEditModalBtn">&times;</button>
+      </div>
+      
+      <div class="create-post-form">
+        <input type="hidden" id="editPostIdInput" />
+        <input type="text" class="comment-input" id="editPostTitleInput" placeholder="Main short title..." />
+        <textarea class="comment-input post-desc-input" id="editPostDescInput" placeholder="Write your post description..."></textarea>
+        <input type="text" class="comment-input" id="editPostTagsInput" placeholder="Tags..." />
+
+        <button class="send-comment-btn" id="updatePostBtn"><i class="fa-solid fa-check"></i> Update Post</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-container" id="loadingSpinner">
+    <img src="files/loading.gif" alt="Loading..." class="loading-gif" />
+    <p class="loading-text">loading</p>
+  </div>
+
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content custom-modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Login</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="comment-input mb-3" id="loginUsername" placeholder="Username">
+          <input type="password" class="comment-input mb-3" id="loginPassword" placeholder="Password">
+          
+          <button class="send-comment-btn w-100" id="loginSubmitBtn" onclick="loginFunction()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content custom-modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Register</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="registerImageFile" class="profile-img-upload-label" title="Choose Profile Picture">
+            <i class="fa-solid fa-camera"></i>
+            <span>Avatar</span>
+          </label>
+          <input type="file" id="registerImageFile" accept="image/*" style="display: none;" />
+
+          <input type="text" class="comment-input mb-3" id="registerName" placeholder="Name">
+          <input type="text" class="comment-input mb-3" id="registerUsername" placeholder="Username (letters, numbers, _)">
+          <input type="email" class="comment-input mb-3" id="registerEmail" placeholder="Email">
+          <input type="password" class="comment-input mb-3" id="registerPassword" placeholder="Password (8+, upper, lower, number, symbol)">
+
+          <button class="send-comment-btn w-100 register-submit-btn" id="registerSubmitBtn">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-notification" id="toastNotification">
+    <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+    <span id="toastMessage">Action completed successfully!</span>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const splash = document.getElementById("startupSplash");
+      const lastSplashTime = localStorage.getItem("mokaSplashTimestamp");
+      const currentTime = new Date().getTime();
+      const twentyFourHours = 24 * 60 * 60 * 1000;
+
+      if (!lastSplashTime || (currentTime - parseInt(lastSplashTime)) > twentyFourHours) {
+        if (splash) splash.style.display = "flex";
+        setTimeout(() => {
+          if (splash) {
+            splash.style.opacity = "0";
+            splash.style.visibility = "hidden";
+            setTimeout(() => splash.remove(), 500);
+          }
+          localStorage.setItem("mokaSplashTimestamp", currentTime.toString());
+        }, 3000); 
+      } else {
+        if (splash) splash.remove();
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/Utils.js"></script>
+  <script src="js/Auth.js"></script>
+  <script src="js/comments.js"></script>
+  <script src="js/post.js"></script>
+  <script src="js/modals.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
